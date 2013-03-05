@@ -1,5 +1,5 @@
 
-namespace IRCbot
+module IRCbot.Bot
 
 open System
 open System.IO

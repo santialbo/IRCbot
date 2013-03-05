@@ -1,7 +1,7 @@
-
-module IRCbot.Main
-
-open IRCbot
+#I "/Users/santialbo/Developer/IRCbot/IRCbot/"
+#load "Util.fs"
+#load "Bot.fs"
+open IRCbot.Bot
 open IRCbot.Util
 
 let msgHandler (line: string) (write: string -> unit) =
@@ -15,8 +15,5 @@ let msgHandler (line: string) (write: string -> unit) =
     | Match @"^:[^:]+JOIN (#[^\s]+)$" [channel] -> say channel "Hello world!"
     | _ -> ()
 
-[<EntryPoint>]
-let main args = 
-    let bot = new SimpleBot("irc.quakenet.org", 6667, "itnas2", ["#holaquetalsoycolosal"; "#holaquetalsoycolosal2"], msgHandler)
-    bot.Start()
-    0
+let bot = new SimpleBot("irc.quakenet.org", 6667, "itnas2", ["#holaquetalsoycolosal"; "#holaquetalsoycolosal2"], msgHandler)
+bot.Start()

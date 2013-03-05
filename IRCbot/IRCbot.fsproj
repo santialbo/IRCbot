@@ -2,11 +2,11 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2202E2DF-22D6-418E-916E-FFAF211D0F8A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{D8930F72-B49E-422C-8BC7-700C99F6B527}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <RootNamespace>IRCbot</RootNamespace>
     <AssemblyName>IRCbot</AssemblyName>
     <BuildOrder>
@@ -14,28 +14,28 @@
         <String>AssemblyInfo.fs</String>
         <String>Util.fs</String>
         <String>Bot.fs</String>
-        <String>Program.fs</String>
+        <String>ExampleBot.fsx</String>
       </BuildOrder>
     </BuildOrder>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <Externalconsole>True</Externalconsole>
-    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>False</ConsolePause>
+    <PlatformTarget />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <Tailcalls>true</Tailcalls>
-    <Externalconsole>True</Externalconsole>
-    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>False</ConsolePause>
+    <PlatformTarget />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -46,9 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Program.fs" />
     <Compile Include="Bot.fs" />
     <Compile Include="Util.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" />
+  <ItemGroup>
+    <None Include="ExampleBot.fsx" />
+  </ItemGroup>
 </Project>
