@@ -6,7 +6,7 @@ IRCbot is a small IRC bot implementation which handles all the TCP stuff. You ju
 Usage:
 ------
 ```FSharp
-open IRCbot
+open IRCbot.Bot
 open IRCbot.Util
 
 let msgHandler (line: string) (write: string -> unit) =
