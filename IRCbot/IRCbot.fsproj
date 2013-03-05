@@ -12,6 +12,7 @@
     <BuildOrder>
       <BuildOrder>
         <String>AssemblyInfo.fs</String>
+        <String>Util.fs</String>
         <String>Bot.fs</String>
         <String>Program.fs</String>
       </BuildOrder>
@@ -47,6 +48,7 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
     <Compile Include="Bot.fs" />
+    <Compile Include="Util.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" />
 </Project>

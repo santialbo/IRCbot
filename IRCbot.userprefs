@@ -2,8 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="IRCbot/Program.fs">
     <Files>
-      <File FileName="IRCbot/Program.fs" Line="12" Column="20" />
-      <File FileName="IRCbot/Bot.fs" Line="3" Column="1" />
+      <File FileName="IRCbot/Program.fs" Line="14" Column="4" />
+      <File FileName="IRCbot/Bot.fs" Line="38" Column="24" />
+      <File FileName="IRCbot/Util.fs" Line="10" Column="14" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

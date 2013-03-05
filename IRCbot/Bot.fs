@@ -5,11 +5,11 @@ open System
 open System.IO
 open System.Net.Sockets
 
+open IRCbot.Util
+
 type Connection(server: string, port: int, nick: string) =
     
     let client = new TcpClient()
-    
-    let getMessage (line: string) = line.Substring(line.IndexOf(":", 1) + 1) 
     
     member this.Connect() =
         client.Connect(server, port)
@@ -32,11 +32,10 @@ type Connection(server: string, port: int, nick: string) =
             putLine (sprintf "NICK %s" nick)
             
             let rec connect_ = fun () ->
-                let line = getLine()
-                if line.StartsWith "PING :" then
-                    putLine (sprintf "PONG %s" (line.Substring 5)) // If server pings we pong
-                if (getMessage line).StartsWith "Welcome" then () // If server welcomes we are done
-                else connect_()
+                match getLine() with
+                | Match @"^PING :(.+)$" [what] -> putLine (sprintf "PONG %s" what); connect_() // If server pings we pong
+                | Match @":[^ ]+ 001 " _ -> () // If server welcomes we are done
+                | _ -> connect_()
             do connect_()
         
         let connected = fun () -> not reader.EndOfStream
