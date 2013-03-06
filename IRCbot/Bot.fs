@@ -33,8 +33,8 @@ type Connection(server: string, port: int, nick: string) =
             
             let rec connect_ = fun () ->
                 match getLine() with
-                | Match @"^PING :(.+)$" [what] -> putLine (sprintf "PONG %s" what); connect_() // If server pings we pong
-                | Match @":[^ ]+ 001 " _ -> () // If server welcomes we are done
+                | Message (PING(what)) -> putLine (sprintf "PONG %s" what); connect_() // If server pings we pong
+                | Message (COMMAND("001", _,  _)) -> () // If server welcomes we are done
                 | _ -> connect_()
             do connect_()
         

@@ -1,17 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="IRCbot/ExampleBot.fsx">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="IRCbot/Util.fs">
     <Files>
-      <File FileName="IRCbot/ExampleBot.fsx" Line="9" Column="17" />
       <File FileName="IRCbot/Bot.fs" Line="1" Column="1" />
       <File FileName="IRCbot/Util.fs" Line="1" Column="1" />
+      <File FileName="IRCbot/ExampleBot.fsx" Line="14" Column="16" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="IRCbot" expanded="True">
-            <Node name="References" expanded="True" />
-            <Node name="ExampleBot.fsx" selected="True" />
+            <Node name="Util.fs" selected="True" />
           </Node>
         </State>
       </Pad>
