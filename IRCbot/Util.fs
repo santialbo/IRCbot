@@ -11,6 +11,7 @@ let (|Match|_|) (pat:string) (inp:string) =
 
 type Message =
     | PING of string
+    | ERROR of string                       // description
     | NOTICE of string
     | COMMAND of string * string * string   // number, who, text
     | PRIVMSG of string * string * string   // user, dest, content
@@ -21,6 +22,7 @@ type Message =
 let (|Message|_|) (line: string) =
     match line with
     | Match @"PING :(.+)$" [what] -> Some(PING(what))
+    | Match @"ERROR :(.+)$" [desc] -> Some(ERROR(desc))
     | Match @":[^ ]+ NOTICE [^ ]+ :(.+)$" [text] -> Some(NOTICE(text))
     | Match @":[^ ]+ (\d\d\d) ([^:]+)(?: :(.+))?$" [number; who; text] -> Some(COMMAND(number, who, text))
     | Match @":([^!]+)[^ ]+ PRIVMSG ([^ ]+) :(.+)$" [user; dest; content] -> Some(PRIVMSG(user, dest, content))
