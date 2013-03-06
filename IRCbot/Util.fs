@@ -27,3 +27,26 @@ let (|Message|_|) (line: string) =
     | Match @":([^!]+)[^ ]+ JOIN ([^ ]+)$" [sender; channel] -> Some(JOIN(sender, channel))
     | Match @":([^!]+)[^ ]+ QUIT :(.+)$" [user; reason] -> Some(QUIT(user, reason))
     | _ -> None
+
+// Formatting
+  
+module Format =
+
+    let BOLD = "\x02"
+
+    let UNDERLINE = "\x1f"
+
+    let RESET = "\x0f"
+    
+    let colors = [| "white"; "black"; "blue"; "green"; "red"; "brown"; "purple"; "orange"; "yellow"; "light green"; "teal"; "cyan"; "light blue"; "pink"; "grey"; "light grey" |]
+    
+    let COLOR fore =
+        match (colors |> Array.tryFindIndex (fun c -> c = fore)) with
+        | Some(i) -> (sprintf "\x03%x" i)
+        | _ -> RESET
+        
+    let BGCOLOR fore back =
+        let color = COLOR fore
+        match (colors |> Array.tryFindIndex (fun c -> c = fore)) with
+        | Some(i) -> color + (sprintf ",%x" i)
+        | _ -> RESET
