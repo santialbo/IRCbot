@@ -9,16 +9,21 @@ Usage:
 open IRCbot.Bot
 open IRCbot.Util
 
+let server = "irc.quakenet.org"
+let port = 6667
+let nick = "Botijo"
+let channels = ["#testchannel"]
+
 let msgHandler (line: string) (write: string -> unit) =
 
     let say channel text = write (sprintf "PRIVMSG %s :%s" channel text)
     let ping what = write (sprintf "PONG :%s" what)
     
     match line with
-    | Match @"^PING :(.+)$" [what] -> ping what
-    | Match @"^:[^:]+JOIN (#[^\s]+)$" [channel] -> say channel "Hello world!"
+    | Message (PING(what)) -> ping what
+    | Message (JOIN(user, channel)) when user = nick -> say channel "Hello world!"
     | _ -> ()
-
-let bot = new SimpleBot("irc.quakenet.org", 6667, "itnas2", ["#holaquetalsoycolosal"; "#holaquetalsoycolosal2"], msgHandler)
+    
+let bot = new SimpleBot(server, port, nick, channels, msgHandler)
 bot.Start()
 ```
