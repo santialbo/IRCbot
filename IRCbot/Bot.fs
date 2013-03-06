@@ -11,36 +11,24 @@ type Connection(server: string, port: int, nick: string) =
     
     let client = new TcpClient()
     
-    member this.Connect() =
+    member this.Start() =
         client.Connect(server, port)
         let reader = new StreamReader(client.GetStream())
         let writer = new StreamWriter(client.GetStream())
         writer.AutoFlush <- true
         
-        let getLine = fun () ->
+        let read = fun () ->
             let line = reader.ReadLine()
             printfn "< %s" line
             line
         
-        let putLine (line: string) =
+        let write (line: string) =
             writer.WriteLine line
             printfn "> %s" line
             
-        do
-            // Connect to the server
-            putLine (sprintf "USER %s %s %s %s" nick nick nick nick)
-            putLine (sprintf "NICK %s" nick)
-            
-            let rec connect_ = fun () ->
-                match getLine() with
-                | Message (PING(what)) -> putLine (sprintf "PONG %s" what); connect_() // If server pings we pong
-                | Message (COMMAND("001", _,  _)) -> () // If server welcomes we are done
-                | _ -> connect_()
-            do connect_()
-        
         let connected = fun () -> not reader.EndOfStream
         
-        (getLine, putLine, connected)
+        (read, write, connected)
     
     member x.Close() =
         client.Close()
@@ -49,14 +37,28 @@ type Connection(server: string, port: int, nick: string) =
 type SimpleBot(server: string, port: int, nick: string, channels: string list,
                msgHandler: string -> (string -> unit) -> unit) =
     
-    let conn = new Connection(server, port, nick)
-    
+    let rec connect (read: unit -> string) (write: string -> unit) =
+        write (sprintf "USER %s %s %s %s" nick nick nick nick)
+        write (sprintf "NICK %s" nick)
+        
+        let rec connect_ = fun () ->
+            match read() with
+            | Message (PING(what)) -> write (sprintf "PONG %s" what); connect_() // If server pings we pong
+            | Message (COMMAND("001", _,  _)) -> // If server welcome we join the channels
+                channels |> List.iter (fun channel -> write (sprintf "JOIN %s" channel))
+            | Message (COMMAND("433", _,  _)) -> // If nickname in use keep trying
+                connect read write
+            | _ -> connect_()
+        do connect_()
+
     member this.Start = fun () ->
-        let read, write, connected = conn.Connect()
-        channels
-        |> List.iter (fun channel -> write (sprintf "JOIN %s" channel))
+        let conn = new Connection(server, port, nick)
+        let read, write, connected = conn.Start()
+        connect read write
         
         while (connected()) do
-            msgHandler (read()) write
-
-
+            let line = read()
+            match line with
+            | Message (PING(what)) -> write (sprintf "PONG :%s" what)
+            | Message (ERROR(desc)) -> this.Start()
+            | _ -> msgHandler line write
