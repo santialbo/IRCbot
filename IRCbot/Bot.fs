@@ -60,5 +60,5 @@ type SimpleBot(server: string, port: int, nick: string, channels: string list,
             let line = read()
             match line with
             | Message (PING(what)) -> write (sprintf "PONG :%s" what)
-            | Message (ERROR(desc)) -> this.Start()
+            | Message (ERROR(desc)) -> conn.Close(); this.Start()
             | _ -> msgHandler line write
